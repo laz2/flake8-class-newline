@@ -22,13 +22,15 @@ class TestChecks(TestCase):
     def test_checks_class_new_lines(self):
         expected_errors = [
             [],
-            [((2, 0), 'CNL100 Class definition does not have a new line.')],
+            [((2, 0),
+              'CNL100 Class definition does not have a new line before callable.')],
             [],
             [],
             [],
             [],
             [],
-            [((8, 0), 'CNL100 Class definition does not have a new line.')],
+            [((8, 0),
+              'CNL100 Class definition does not have a new line before callable.')],
             [],
             [],
             [],

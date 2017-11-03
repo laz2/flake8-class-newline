@@ -18,20 +18,33 @@ def new_line_checker(logical_line, line_number, filename):
 
     if line_number in new_lines_on[filename]:
         # if the line is not only whitespace and not empty
-        double_quotes = logical_line.strip().startswith(DOUBLE_QUOTE * 3)
-        quotes = logical_line.strip().startswith(SINGLE_QUOTE * 3)
+        logical_line_stripped = logical_line.strip()
 
-        is_method = logical_line.strip().startswith(METHOD)
-        is_decorator = logical_line.strip().startswith(DECORATOR)
+        double_quotes = logical_line_stripped.startswith(DOUBLE_QUOTE * 3)
+        quotes = logical_line_stripped.startswith(SINGLE_QUOTE * 3)
+
+        is_method = logical_line_stripped.startswith(METHOD)
+        is_decorator = logical_line_stripped.startswith(DECORATOR)
         is_callable = is_method or is_decorator
+        is_class = logical_line_stripped.startswith(CLASS)
 
         not_only_space = not logical_line.isspace() and logical_line
         not_is_docstring = not (quotes or double_quotes)
 
-        if not_only_space and not_is_docstring and is_callable:
+        if not_only_space and not_is_docstring:
             # this means there's something on the line
+            if is_callable:
+                code = 100
+                msg = 'Class definition does not have a new line before callable.'
+            elif is_class:
+                code = 101
+                msg = 'Class definition does not have a new line before nested class.'
+            else:
+                code = 102
+                msg = 'Class definition does not have a new line before property.'
+
             offset = line_number, 0
-            yield offset, 'CNL100 Class definition does not have a new line.'
+            yield offset, 'CNL{0} {1}'.format(code, msg)
 
 
 new_line_checker.name = 'new_line_checker'
