@@ -32,6 +32,17 @@ class TestChecks(TestCase):
             [],
             [],
             [],
+            [],
+            [],
+            [((14, 0), 'CNL100 Class definition does not have a new line.')],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [((21, 0), 'CNL100 Class definition does not have a new line.')],
+            [],
         ]
 
         an_error_file = [
@@ -46,6 +57,19 @@ class TestChecks(TestCase):
             '      return "a_string"',
             '',
             '',
+            'class ClassWithoutANewLineDocStringDecorator(object):',
+            '   """Documentation'
+            '   """'
+            '   @property',
+            '   def aaasome_arg(self):',
+            '      return "a_string"',
+            '',
+            '',
+            'class ClassWithoutANewLineDocstringMethod(object):',
+            '   """Documentation'
+            '   """'
+            '   def aaasome_arg(self):',
+            '      return "a_string"',
         ]
         # This should produce no error.
         no_error_file = [
